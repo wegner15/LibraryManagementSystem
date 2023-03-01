@@ -16,7 +16,7 @@
         <select name="book" class="form-control" required autofocus placeholder='Select'>
             {% for book in books %}
 
-            <option value='{{ book.id }}' name='book'>{{ book.name }} by {{ book.author }}{{ book.id }}</option>
+            <option value='{{ book.id }}' name='book'>{{ book.name }} by {{ book.author }}</option>
             {% endfor %}
         </select>
     </div>
