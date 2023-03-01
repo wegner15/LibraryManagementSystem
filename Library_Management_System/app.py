@@ -230,7 +230,7 @@ class IssueBookView(MethodView):
 
 class ReturnBookView(MethodView):
     def get(self):
-        copies = Copy.query.filter_by(issued_by=current_user.id).all()
+        copies = db.session.query(Book).join(Copy).filter(Copy.issued_by == current_user.id).all()
         if copies:
             return render_template(
                 "return.html", books=copies, year=datetime.datetime.now().year
@@ -242,15 +242,17 @@ class ReturnBookView(MethodView):
         )
 
     def post(self):
-        book_id = request.form.get("book")
+        book_id = request.form.get("book", type=int)
+        print(book_id)
         book = Copy.query.filter_by(
-            book_id=int(book_id), issued_by=current_user.id
+            book_id=book_id, issued_by=current_user.id
         ).first()
+        book_info=Book.query.get(book_id)
         book.issued_by = None
         book.date_issued = None
         book.date_return = None
-        book.copies.issued_copy -= 1
-        book.copies.present_copy += 1
+        book_info.issued_copy -= 1
+        book_info.present_copy += 1
         db.session.commit()
         flash("Book returned successfully!")
         return redirect(url_for("dashboard"))
