@@ -95,6 +95,7 @@ class LoginView(MethodView):
             login_user(user)
             if request.args.get("next"):
                 return redirect(request.args.get("next"))
+
             return redirect(url_for("dashboard"))
         flash("Invalid Credentials!")
         return redirect(url_for("login"))
@@ -142,6 +143,8 @@ class AdminView(MethodView):
 def dashboard():
     copies = db.session.query(Book).join(Copy).filter(Copy.issued_by == current_user.id).all()
     if copies:
+        if current_user.admin:
+            return redirect(url_for("admin_dashboard"))
         return render_template("dashboard.html", year=datetime.datetime.now().year, books=copies)
 
     flash("You don't have books issued!")
