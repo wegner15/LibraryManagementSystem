@@ -5,8 +5,11 @@ __pycache__/
 migrations/
 # C extensions
 *.so
+.idea/
 node_modules/
 # Distribution / packaging
+package-lock.json
+package.json
 .Python
 .vscode/
 build/
