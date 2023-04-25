@@ -1,6 +1,6 @@
 Flask_SQLAlchemy==3.0.3
 SQLAlchemy==2.0.4
-alembic==1.9.4
+alembic==1.10.4
 Flask_Login==0.6.2
 Flask_Testing==0.8.1
 Flask==2.2.3
